@@ -1,0 +1,10 @@
+<div class="jumbotron">
+    {{#if user}}
+        You are logged in! Hello {{ user }}
+        <p><a class="btn btn-primary btn-lg" href="/logout" role="button">Logout</a></p>
+    {{else}}
+        <h1>Lnk.ski</h1>
+        <p>Even your grandmother can figure it out!</p>
+        <p><a class="btn btn-primary btn-lg" href="/register" role="button">Register</a> <a class="btn btn-primary btn-lg" href="/login" role="button">Login</a></p>
+    {{/if}}
+</div>
