@@ -47,9 +47,6 @@ app.use('/users', users);
 
 // passport config
 var Account = require('./models/account');
-// passport.use(new LocalStrategy(Account.authenticate()));
-// passport.serializeUser(Account.serializeUser());
-// passport.deserializeUser(Account.deserializeUser());
 passport.use(new LocalStrategy(
     function(username, password, done) {
       console.log("The local strat!");

@@ -13,8 +13,18 @@
 
 </div>
 
+
+<div class="panel panel-default">
+    <div class="panel-body" style="padding: 15px 15px 0px;">
 {{# user.links }}
-<div class="well well-sm">
-    <span class="badge">X</span> <a href="{{this.link}}">{{this.link}}</a>
-</div>
+        <blockquote>
+            <span class="badge"><i class="fa fa-times" aria-hidden="true"></i></span> <span class="badge"><i class="fa fa-info" aria-hidden="true"></i></span>
+            <a href="{{this.link}}" target="_blank">{{this.link}}</a>
+        </blockquote>
+{{else}}
+    <blockquote>
+        <p>No links saved <i class="fa fa-frown-o" aria-hidden="true"></i></p>
+    </blockquote>
 {{/ user.links }}
+    </div>
+</div>

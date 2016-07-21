@@ -1,14 +1,23 @@
-<h1>Lnk.ski</h1>
-<p>Even your grandmother can figure it out!</p>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-8">
 
-<form role="form" method="post" action="/login" class="form-inline">
-    <div class="form-group">
-        <input name="username" class="form-control" placeholder="Username">
-        <input name="password" type="password" class="form-control" placeholder="Password">
+                <h1><span class="glyphicon glyphicon-link" aria-hidden="true"></span>Lnk.ski<small><small><small>Global bookmarks</small></small></small></h1>
+
+
+            <form role="form" method="post" action="/login" class="form-inline">
+                <div class="form-group">
+                    <input name="username" class="form-control" placeholder="Collection name">
+                    <input name="password" type="hidden" class="form-control" placeholder="Password" value="helloworld">
+                </div>
+
+                <button type="submit" class="btn btn-default">Open links</button>
+            </form>
+        </div>
+        <div class="col-md-4 sociallogins">
+            <a href="/auth/facebook" class="btn btn-block btn-social btn-facebook"><span class="fa fa-facebook"></span> Facebook</a>
+            <a href="/auth/google" class="btn btn-block btn-social btn-google"><span class="fa fa-google"></span> Google</a>
+            <a href="/auth/twitter" class="btn btn-block btn-social btn-twitter"><span class="fa fa-twitter"></span> Twitter</a>
+        </div>
     </div>
-
-    <button type="submit" class="btn btn-default">Submit</button>
-</form><br>
-<a href="/auth/facebook" class="btn btn-block btn-social btn-facebook"><span class="fa fa-facebook"></span> Facebook</a>
-<a href="/auth/google" class="btn btn-block btn-social btn-google"><span class="fa fa-google"></span> Google</a>
-<a href="/auth/twitter" class="btn btn-block btn-social btn-twitter"><span class="fa fa-twitter"></span> Twitter</a>
+</div>

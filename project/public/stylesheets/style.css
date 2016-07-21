@@ -4,6 +4,20 @@
 
 /* Feel free to copy&paste color codes to your application */
 body { padding-top: 70px; }
+.row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+.row > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+.sociallogins {
+    align-self: flex-end;
+}
 
 /* As hex codes */
 

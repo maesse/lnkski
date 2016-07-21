@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Lnk.ski</a>
+            <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-link" aria-hidden="true"></span>Lnk.ski</a>
 
         </div>
 
@@ -23,11 +23,14 @@
                 </div>
             </form>
             <ul class="nav navbar-nav navbar-right">
+                {{#if user.local.username}}
+                    Public collection '{{ user.local.username }}'
+                {{else}}
+                    Private user
+                {{/if}}
                 {{#if user}}
 
-                    <p class="navbar-text">Hello <img src="http://www.gravatar.com/avatar/{{ user._id}}?s=40&d=identicon" class="img-rounded"> {{ user.username }} <a class="btn btn-default navbar-btn" href="/logout" role="button">Logout</a></p>
-                {{else}}
-                    <button class="btn btn-default navbar-btn" href="/login" role="button">Login</button>
+                    <img src="http://www.gravatar.com/avatar/{{ user._id}}?s=40&d=identicon" class="img-rounded"> <a class="btn btn-default navbar-btn" href="/logout" role="button">Logout</a>&nbsp;
                 {{/if}}
 
             </ul>

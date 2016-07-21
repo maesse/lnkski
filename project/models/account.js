@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Link = require("./link").Schema;
-// var passportLocalMongoose = require('passport-local-mongoose');
 var findOrCreate = require("mongoose-findorcreate");
 
 
@@ -32,7 +31,6 @@ var Account = new Schema({
     links: [Link]
 });
 
-// Account.plugin(passportLocalMongoose);
 Account.plugin(findOrCreate);
 
 module.exports = mongoose.model('Account', Account);
