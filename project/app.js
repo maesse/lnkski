@@ -10,6 +10,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require("passport-google-oauth20").Strategy;
+var TwitterStrategy = require("passport-twitter").Strategy;
 var googleConfig = require("./googleauth.json");
 
 var routes = require('./routes/index');
@@ -68,14 +69,10 @@ passport.use(new FacebookStrategy({
     },
     function(accessToken, refreshToken, profile, done) {
       console.log("Da Face strat!");
-      // User.findOrCreate(..., function(err, user) {
-      //   if (err) { return done(err); }
-      //   done(null, user);
-      // });
       Account.findOrCreate({ 'facebook.id' : profile.id }, { 'facebook.token' : accessToken }, function(err, user, created) {
         if (err) { return done(err); }
         if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
+          return done(null, false, { message: 'Incorrect.' });
         }
         // if (!user.validPassword(password)) {
         //   return done(null, false, { message: 'Incorrect password.' });
@@ -84,27 +81,55 @@ passport.use(new FacebookStrategy({
       });
     }
 ));
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-passport.deserializeUser(function(id, done) {
-  Account.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
 
 passport.use(new GoogleStrategy({
         clientID: googleConfig.web.client_id,
         clientSecret: googleConfig.web.client_secret,
         callbackURL: "http://localhost:3000/auth/google/callback"
     },
-    function(accessToken, refreshToken, profile, cb) {
-        console.log("U wot m9");
-        //User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        //  return cb(err, user);
-        //});
+    function(token, tokenSecret, profile, done) {
+        console.log("Da Google strat!");
+        Account.findOrCreate({ 'google.id': profile.id }, { 'google.token': token }, function (err, user, created) {
+            if (err) { return done(err); }
+            if (!user) {
+                return done(null, false, { message: 'Incorrect.' });
+            }
+            // if (!user.validPassword(password)) {
+            //   return done(null, false, { message: 'Incorrect password.' });
+            // }
+            return done(null, user);
+        });
     }
 ));
+
+passport.use(new TwitterStrategy({
+        consumerKey: 'Lx4Ww3N1nsa33DRjc6ejtRWlI',
+        consumerSecret: 'PmXJ7aPlxOgVy0f6PJG1edT1ob2QMpBaTQsbRaStSp3u3ZtFbC',
+        callbackURL: "http://localhost:3000/auth/twitter/callback"
+    },
+    function(token, tokenSecret, profile, done) {
+        console.log("Da twitter strat!");
+        Account.findOrCreate({ 'twitter.id': profile.id }, { 'twitter.token': token }, function (err, user, created) {
+            if (err) { return done(err); }
+            if (!user) {
+                return done(null, false, { message: 'Incorrect.' });
+            }
+            // if (!user.validPassword(password)) {
+            //   return done(null, false, { message: 'Incorrect password.' });
+            // }
+            return done(null, user);
+        });
+    }
+));
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+passport.deserializeUser(function(id, done) {
+    Account.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
 
 // mongoose
 mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
