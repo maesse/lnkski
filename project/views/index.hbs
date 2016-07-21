@@ -3,9 +3,6 @@
         {{> links}}
         Debug: {{ user }}
     {{else}}
-        <h1>Lnk.ski</h1>
-        <p>Even your grandmother can figure it out!</p>
-        <p><a class="btn btn-primary btn-lg" href="/register" role="button">Register</a> <a class="btn btn-primary btn-lg" href="/login" role="button">Login</a></p>
-        <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
+        {{> login}}
     {{/if}}
 </div>

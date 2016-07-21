@@ -8,7 +8,8 @@ var hbs = require("hbs");
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
+var GoogleStrategy = require("passport-google-oauth20").Strategy;
+var googleConfig = require("./googleauth.json");
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -44,6 +45,19 @@ var Account = require('./models/account');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
+
+passport.use(new GoogleStrategy({
+      clientID: googleConfig.web.client_id,
+      clientSecret: googleConfig.web.client_secret,
+      callbackURL: "http://localhost:3000/auth/google/return"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      console.log("U wot m9");
+      //User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      //  return cb(err, user);
+      //});
+    }
+));
 
 // mongoose
 mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
