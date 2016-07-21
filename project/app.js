@@ -37,6 +37,9 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+// TODO: Use LESS instead and import that way
+app.use('/bootstrap-social',express.static(path.join(__dirname, '/node_modules/bootstrap-social')));
+app.use('/font-awesome',express.static(path.join(__dirname, '/node_modules/font-awesome')));
 
 app.use('/', routes);
 app.use('/users', users);
