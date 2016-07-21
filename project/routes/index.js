@@ -65,5 +65,14 @@ router.get('/ping', function(req, res){
   res.status(200).send("pong!");
 });
 
+router.get('/auth/facebook',
+    passport.authenticate('facebook'));
+
+router.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/fail' }),
+    function(req, res) {
+        res.redirect('/success');
+    });
+
 
 module.exports = router;

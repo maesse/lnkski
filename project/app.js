@@ -8,6 +8,7 @@ var hbs = require("hbs");
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 
 var routes = require('./routes/index');
@@ -41,9 +42,55 @@ app.use('/users', users);
 
 // passport config
 var Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+// passport.use(new LocalStrategy(Account.authenticate()));
+// passport.serializeUser(Account.serializeUser());
+// passport.deserializeUser(Account.deserializeUser());
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+      console.log("The local strat!");
+      Account.findOne({ username: username }, function(err, user) {
+        if (err) { return done(err); }
+        if (!user) {
+          return done(null, false, { message: 'Incorrect username.' });
+        }
+        // if (!user.validPassword(password)) {
+        //   return done(null, false, { message: 'Incorrect password.' });
+        // }
+        return done(null, user);
+      });
+    }
+));
+passport.use(new FacebookStrategy({
+      clientID: "1734174693508836",
+      clientSecret: "fa8f62ff86be168296b32dce85572e59",
+      callbackURL: "http://localhost:3000/auth/facebook/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+      console.log("Da Face strat!");
+      // User.findOrCreate(..., function(err, user) {
+      //   if (err) { return done(err); }
+      //   done(null, user);
+      // });
+      Account.findOne({ facebook.id' : profile.id }, function(err, user) {
+        if (err) { return done(err); }
+        if (!user) {
+          return done(null, false, { message: 'Incorrect username.' });
+        }
+        // if (!user.validPassword(password)) {
+        //   return done(null, false, { message: 'Incorrect password.' });
+        // }
+        return done(null, user);
+      });
+    }
+));
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+passport.deserializeUser(function(id, done) {
+  Account.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 // mongoose
 mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
