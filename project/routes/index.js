@@ -16,7 +16,7 @@ router.get('/register', function(req, res, next) {
 
 router.post('/register', function(req, res) {
   console.log("Hit register POST");
-  Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+  Account.register(new Account({ 'local.username' : req.body.username }), req.body.password, function(err, account) {
     console.log("register callback, " + err + ", acc: " + account);
     console.log("req.body.username: " + req.body.username);
     if (err) {
@@ -71,7 +71,7 @@ router.get('/auth/facebook',
 router.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/fail' }),
     function(req, res) {
-        res.redirect('/success');
+        res.redirect('/');
     });
 
 

@@ -9,7 +9,8 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
-
+var GoogleStrategy = require("passport-google-oauth20").Strategy;
+var googleConfig = require("./googleauth.json");
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -48,7 +49,7 @@ var Account = require('./models/account');
 passport.use(new LocalStrategy(
     function(username, password, done) {
       console.log("The local strat!");
-      Account.findOne({ username: username }, function(err, user) {
+      Account.findOrCreate({ 'local.username' : username }, { 'local.password' : password }, function(err, user, created) {
         if (err) { return done(err); }
         if (!user) {
           return done(null, false, { message: 'Incorrect username.' });
@@ -71,7 +72,7 @@ passport.use(new FacebookStrategy({
       //   if (err) { return done(err); }
       //   done(null, user);
       // });
-      Account.findOne({ facebook.id' : profile.id }, function(err, user) {
+      Account.findOrCreate({ 'facebook.id' : profile.id }, { 'facebook.token' : accessToken }, function(err, user, created) {
         if (err) { return done(err); }
         if (!user) {
           return done(null, false, { message: 'Incorrect username.' });
@@ -91,6 +92,19 @@ passport.deserializeUser(function(id, done) {
     done(err, user);
   });
 });
+
+passport.use(new GoogleStrategy({
+      clientID: googleConfig.web.client_id,
+      clientSecret: googleConfig.web.client_secret,
+      callbackURL: "http://localhost:3000/auth/google/return"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      console.log("U wot m9");
+      //User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      //  return cb(err, user);
+      //});
+    }
+));
 
 // mongoose
 mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
