@@ -94,15 +94,15 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(new GoogleStrategy({
-      clientID: googleConfig.web.client_id,
-      clientSecret: googleConfig.web.client_secret,
-      callbackURL: "http://localhost:3000/auth/google/return"
+        clientID: googleConfig.web.client_id,
+        clientSecret: googleConfig.web.client_secret,
+        callbackURL: "http://localhost:3000/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, cb) {
-      console.log("U wot m9");
-      //User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      //  return cb(err, user);
-      //});
+        console.log("U wot m9");
+        //User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        //  return cb(err, user);
+        //});
     }
 ));
 
