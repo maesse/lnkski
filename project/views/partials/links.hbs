@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form role="form" method="post" action="/addlink">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></span>
+                    <input type="text" class="form-control" name="link" placeholder="Add new link" aria-describedby="basic-addon1">
+                    <span class="input-group-btn"><button class="btn btn-default" type="submit">+</button></span>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+{{# user.links }}
+<div class="well well-sm">
+    <span class="badge">X</span> <a href="{{this.link}}">{{this.link}}</a>
+</div>
+{{/ user.links }}

@@ -1,6 +1,8 @@
 var express = require('express');
 var passport = require('passport');
 var Account = require('../models/account');
+var Link = require('../models/link');
+var util = require("util");
 var router = express.Router();
 
 /* GET home page. */
@@ -26,6 +28,23 @@ router.post('/register', function(req, res) {
       res.redirect('/');
     });
   });
+});
+
+router.post('/addlink', function(req, res) {
+  if(!req.body.link) res.status(200).send('No link included');
+  console.log("User '" + req.user + "' adding link: " + req.body.link);
+
+  var link = new Link.model({
+    link: req.body.link,
+    date: Date.now(),
+      });
+  req.user.links.push(link);
+  req.user.save(function(err) {
+    if(err) console.log(err);
+    res.redirect('/');
+  });
+
+
 });
 
 router.get('/login', function(req, res) {
